@@ -1,0 +1,10 @@
+a = [1 2 3];o = [0 0 0];
+x = [o(1) a(1)];y = [o(2) a(2)]; z = [o(3) a(3)];
+figure;plot3(x,y,z);axis([-3 3 -3 3 -3 3]); hold on;
+grid on;xlabel('X');ylabel('Y');zlabel('Z'); theta = 90;
+rotmat = [cosd(theta), 0 , sind(theta); 0,1,0; -sind(theta), 0, cosd(theta)];
+o = o*rotmat;
+a = a*rotmat;
+x = [o(1) a(1)];y = [o(2) a(2)]; z = [o(3) a(3)];
+plot3(x,y,z,'r');hold off;%axis([-3 3 -3 3 -3 3]);
+%grid on;%xlabel('X');ylabel('Y');zlabel('Z');

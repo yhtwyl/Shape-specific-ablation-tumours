@@ -1,0 +1,11 @@
+GlobalCS = [1,0,0;0,1,0;0,0,1];
+%LocalCS = FindTheNormal(GlobalCS,"latitude",90);
+LocalCS = GlobalCS*roty(90);
+origin = [0,0,0];
+GlobalCS_X = [origin;GlobalCS(1,:)];GlobalCS_Y = [origin;GlobalCS(2,:)];GlobalCS_Z = [origin;GlobalCS(3,:)];
+LocalCS_X = [origin;LocalCS(1,:)];LocalCS_Y = [origin;LocalCS(2,:)];LocalCS_Z = [origin;LocalCS(3,:)];
+figure;plot3(GlobalCS_X(:,1),GlobalCS_X(:,2),GlobalCS_X(:,3),'b',GlobalCS_Y(:,1),GlobalCS_Y(:,2),GlobalCS_Y(:,3),'g',GlobalCS_Z(:,1),GlobalCS_Z(:,2),GlobalCS_Z(:,3),'r');hold on;
+% xlim = [-1.5,1.5];ylim = [-1.5,1.5];zlim = [-1.5,1.5];
+figure;plot3(LocalCS_X(:,1),LocalCS_X(:,2),LocalCS_X(:,3),'-b',LocalCS_Y(:,1),LocalCS_Y(:,2),LocalCS_Y(:,3),'-g',LocalCS_Z(:,1),LocalCS_Z(:,2),LocalCS_Z(:,3),'-r');
+set(get(gca, 'XLabel'), 'String', 'X');set(get(gca, 'YLabel'), 'String', 'Y');set(get(gca, 'ZLabel'), 'String', 'Z');
+% axis image;
