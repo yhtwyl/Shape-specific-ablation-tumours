@@ -15,13 +15,15 @@ triangles(:,[3 6 9]) = triangles(:,[3 6 9]) - centroid_z;
 triangles(:,[2 5 8]) = triangles(:,[2 5 8]) - centroid_y;
 triangles(:,[1 4 7]) = triangles(:,[1 4 7]) - centroid_x;
 TopEntry = 0; start_lat = 0; end_lat = 180;
+%model = createpde(3);
+% importGeometry(model,'C:\Users\2016m\Documents\MATLAB\ASME_Upgraded\livertumorsegmentation_livertumor.stl');
 for longitude = 0:delta_theta:(360 - delta_theta)
     tri_long = rotate_stl(triangles,"longitude",longitude);
     for latitude = start_lat:delta_theta:end_lat
         tri_long_lat = rotate_stl(tri_long,"latitude",-latitude);
         [Slices,min_z,max_z] = slice_stl_create_path(tri_long_lat,slice_height);
         VerticalTumourLimits = [min_z, max_z];
-        %% figure; fig1 = gcf;
+        figure; fig1 = gcf;
         BottomSliceValue = 4; TopSliceValue = size(Slices,2) - 4;
         for slice_value = BottomSliceValue:TopSliceValue
             NiceDataCutPlane = RefineStlSliceFlipV3(Slices{slice_value},"no");%Show z-slice height or not.
@@ -48,8 +50,8 @@ for longitude = 0:delta_theta:(360 - delta_theta)
             D1 = sides(2,count);D2 = sides(1,count);
         end
         %% set(get(gca, 'Title'), 'String', 'Slice');
-        subtitle(strcat("D1 = ", num2str(D1),' | ',"D2 = ", num2str(D2)));
-        [StatesOfAllNineTines, area, VerticalAblationLimits] = OverlappingFromDatabase(NiceDataCutPlane(:,1:2)',gcf);
+        %% subtitle(strcat("D1 = ", num2str(D1),' | ',"D2 = ", num2str(D2)));
+        [StatesOfAllNineTines, area, VerticalAblationLimits] = OverlappingFromDatabase3D(NiceDataCutPlane(:,1:2)',gcf);
         % % if size(StatesOfAllNineTines,1) ~= 0
         % %     % if D1 < D2
         % %     %     D1 = D2;
@@ -67,6 +69,9 @@ for longitude = 0:delta_theta:(360 - delta_theta)
             else
                 fprintf('You must be careful with the choice of states');
             end
+            h = pdegplot(model,'FaceLabels','off'); 
+            rotate(h,[0,0,1],longitude);
+            rotate(h,[0,1,0],-latitude);
         else
             disp('Empty shot for trocar entry at: ')
             formatSpec = '%3d%c N and %3d%c E\n';

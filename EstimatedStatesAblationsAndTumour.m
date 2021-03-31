@@ -1,0 +1,4 @@
+states = [];
+tumour = ;
+longitude = ;
+latitude = ;
