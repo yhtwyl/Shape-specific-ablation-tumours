@@ -119,7 +119,12 @@ function [StatesOfAllNineTines, area, VerticalAblationLimits] = OverlappingFromD
             [x,y,z,v] = ReadmatrixFromDatabase(filename,similar); % reflection
             grid_points = 70; %%%%%%%%%% FOR DATABASE
             x_mat = reshape(x,[grid_points,grid_points,grid_points]);
-            y_mat = reshape(y,[grid_points,grid_points,grid_points]);
+            if nature
+                y_shift = max(y);
+                y_mat = reshape(y-y_shift,[grid_points,grid_points,grid_points]);
+            else
+                y_mat = reshape(y,[grid_points,grid_points,grid_points]);
+            end
             z_mat = reshape(z,[grid_points,grid_points,grid_points]);
             v_mat = reshape(v(:,case_no),[grid_points,grid_points,grid_points]);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SHIFT THE DATA TO ORIGIN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -147,16 +152,12 @@ function [StatesOfAllNineTines, area, VerticalAblationLimits] = OverlappingFromD
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%   PLOT THE 3D ABLATIONS %%%%%%%%%%%%%%%%%%%%%%
+            %%%%%%%%%%%%%%%%%%%%%% FOR INDIVIDUAL TINE CONTRIBUTION %%%%%%%%%%%%%%%%
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             fv_f = patch(isosurface(x_mat,y_mat,z_mat,v_mat,1));axis image;
             fv_f.FaceColor = 'red';% blue
             fv_f.EdgeColor = 'none'; hold on;% camlight; lighting gouraud;
-            alpha(fv_f,0.5)
-            
-        %     fv_r = patch(isosurface(x,-y,z,v,IsoContourValue));axis image;
-        %     fv_r.FaceColor = 'red';% blue
-        %     fv_r.EdgeColor = 'none'; hold on;% camlight; lighting gouraud;
-        %     alpha(fv_r,0.5)
-        %%%% COMMENT THIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+            alpha(fv_f,0.5);
             direction = [0 0 1];%TineID = ;
             origin = [0 0 60]; % conundrum due to changing the axes %% CHECK OUT THIS ORIGIN....
             angle = 360/8;angle = angle*(TineID - 1);% + angle*0.5;
