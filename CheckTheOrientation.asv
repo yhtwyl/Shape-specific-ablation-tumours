@@ -35,7 +35,6 @@ figure;hold on;
 for i = 1:3000
     patch(triangles(i,[1 4 7]),triangles(i,[2 5 8]),triangles(i,[3 6 9]),'r');
 end
-toc
 % points = reshape(triangles(:,1:9)',[3,9000]);
 % points = uniquetol(points','ByRows',eps);
 % scatter3(points(:,1),points(:,2),points(:,3));axis image;

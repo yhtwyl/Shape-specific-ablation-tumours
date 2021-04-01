@@ -23,7 +23,7 @@ for longitude = 0:delta_theta:(360 - delta_theta)
         tri_long_lat = rotate_stl(tri_long,"latitude",-latitude);
         [Slices,min_z,max_z] = slice_stl_create_path(tri_long_lat,slice_height);
         VerticalTumourLimits = [min_z, max_z];
-        figure; fig1 = gcf;
+        figure; fig1 = gcf;hold on;
         BottomSliceValue = 4; TopSliceValue = size(Slices,2) - 4;
         for slice_value = BottomSliceValue:TopSliceValue
             NiceDataCutPlane = RefineStlSliceFlipV3(Slices{slice_value},"no");%Show z-slice height or not.
@@ -69,9 +69,7 @@ for longitude = 0:delta_theta:(360 - delta_theta)
             else
                 fprintf('You must be careful with the choice of states');
             end
-            h = pdegplot(model,'FaceLabels','off'); 
-            rotate(h,[0,0,1],longitude);
-            rotate(h,[0,1,0],-latitude);
+            PlotRotatedTumour(tri_long_lat,fig1);hold off;
         else
             disp('Empty shot for trocar entry at: ')
             formatSpec = '%3d%c N and %3d%c E\n';
